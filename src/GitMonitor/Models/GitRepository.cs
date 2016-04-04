@@ -7,6 +7,8 @@ namespace GitMonitor.Models
     {
         public string Name { get; set; }
 
+        public string FriendlyName { get; set; }
+
         public int CommitCount { get; set; }
     }
 }

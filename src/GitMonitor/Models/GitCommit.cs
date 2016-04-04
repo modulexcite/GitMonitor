@@ -25,6 +25,8 @@ namespace GitMonitor.Models
 
         public string Sha { get; set; }
 
+        public string RepositoryFriendlyName { get; set; }
+
         public string RepositoryName { get; set; }
 
         public string RepositoryUrl { get; set; }

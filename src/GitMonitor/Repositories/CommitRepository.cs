@@ -30,14 +30,19 @@ namespace GitMonitor.Repositories
                 MonitoredItem mi = new MonitoredItem();
                 foreach (var dir in di.GetDirectories())
                 {
-                    GitRepository gitrepo = new GitRepository { Name = dir.Name };
-                    string commitUrl = Startup.Configuration[$"Repositories:{gitrepo.Name}"];
+                    GitRepository gitrepo = new GitRepository { Name = dir.Name.Replace(".git", string.Empty) };
 
+                    string commitUrl = Startup.Configuration[$"Repositories:{gitrepo.Name}"];
+                    string repoFriendlyName = Startup.Configuration[$"Repositories:{gitrepo.Name}FriendlyName"];
+                    repoFriendlyName = string.IsNullOrWhiteSpace(repoFriendlyName) ? dir.Name : repoFriendlyName;
+                    gitrepo.FriendlyName = repoFriendlyName;
                     using (var repo = new Repository(dir.FullName))
                     {
                         DateTime startDate = DateTime.Now.AddDays(Convert.ToInt32(Startup.Configuration["Repositories:Age"]));
                         int commitCount = 0;
-                        foreach (LibGit2Sharp.Commit com in repo.Head.Commits.Where(s => s.Committer.When >= startDate).OrderByDescending(s => s.Author.When))
+                        string branch = repo.Info.IsBare == true ? "master" : "origin/master";
+                        //this.locallogger.LogInformation(dir.Name);
+                        foreach (LibGit2Sharp.Commit com in repo.Branches[branch].Commits.Where(s => s.Committer.When >= startDate).OrderByDescending(s => s.Author.When))
                         {
                             // filter out merge commits
                             if (com.Parents.Count() > 1)
@@ -45,20 +50,32 @@ namespace GitMonitor.Repositories
                                 continue;
                             }
 
+                            string[] nameexclusions = Startup.Configuration["Repositories:UserNameExcludeFilter"].Split(',');
+                            if (nameexclusions.Any(name => com.Author.Name.Contains(name)))
+                            {
+                                continue;
+                            }
+
                             string url = string.IsNullOrWhiteSpace(commitUrl) ? string.Empty : string.Format($"{commitUrl}{com.Sha}");
-                            
+                            string repositoryUrl = string.Empty;
+                            if (repo.Network.Remotes?["origin"] != null)
+                            {
+                                repositoryUrl = repo.Network.Remotes["origin"].Url;
+                            }
+
                             commits.Add(new GitCommit
                             {
                                 Author = com.Author.Name,
-                                AuthorEmail = com.Author.Email,
+                                AuthorEmail = string.IsNullOrWhiteSpace(com.Author.Email) ? string.Empty : com.Author.Email,
                                 AuthorWhen = com.Author.When.UtcDateTime,
                                 Committer = com.Committer.Name,
-                                CommitterEmail = com.Committer.Email,
+                                CommitterEmail = string.IsNullOrWhiteSpace(com.Committer.Email) ? string.Empty : com.Committer.Email,
                                 CommitterWhen = com.Committer.When.UtcDateTime,
                                 Sha = com.Sha,
                                 Message = com.Message,
+                                RepositoryFriendlyName = repoFriendlyName,
                                 RepositoryName = dir.Name,
-                                RepositoryUrl = repo.Network.Remotes["origin"].Url,
+                                RepositoryUrl = repositoryUrl,
                                 CommitUrl = url
                             });
                             commitCount++;
