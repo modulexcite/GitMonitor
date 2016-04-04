@@ -9,5 +9,7 @@ namespace GitMonitor.Repositories
     public interface ICommitRepository
     {
         IEnumerable<MonitoredItem> GetAll();
+
+        IEnumerable<MonitoredItem> Get(string repoName);
     }
 }

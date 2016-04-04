@@ -3,9 +3,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace GitMonitor.Controllers
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Net;
     using GitMonitor.Repositories;
     using Microsoft.AspNet.Mvc;
     using Microsoft.Extensions.Logging;
@@ -22,7 +19,13 @@ namespace GitMonitor.Controllers
             this.locallogger = logger;
         }
 
-        [HttpGet("")]
+        [Route("{repoName}")]
+        public JsonResult Get(string repoName)
+        {
+            var results = this.localRepository.Get(repoName);
+            return this.Json(results);
+        }
+
         public JsonResult Get()
         {
             var results = this.localRepository.GetAll();
