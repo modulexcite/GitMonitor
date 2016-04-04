@@ -10,7 +10,7 @@
             {
                 foreach (var monitor in Model)
                 {
-                    <ul class="nav nav-pills">
+                    <ul class="nav nav-pills" id="myTab">
                         <li class="active"><a href="#allcommits" data-toggle="tab"><small>All - @monitor.Commits.Count</small></a></li>
                         @foreach (var repo in @monitor.Repositories)
                         {
