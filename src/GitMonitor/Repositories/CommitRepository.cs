@@ -41,7 +41,6 @@ namespace GitMonitor.Repositories
                         DateTime startDate = DateTime.Now.AddDays(Convert.ToInt32(Startup.Configuration["Repositories:Age"]));
                         int commitCount = 0;
                         string branch = repo.Info.IsBare == true ? "master" : "origin/master";
-                        //this.locallogger.LogInformation(dir.Name);
                         foreach (LibGit2Sharp.Commit com in repo.Branches[branch].Commits.Where(s => s.Committer.When >= startDate).OrderByDescending(s => s.Author.When))
                         {
                             // filter out merge commits

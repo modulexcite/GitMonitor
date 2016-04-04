@@ -11,8 +11,8 @@ $(window).on('popstate', function () {
     $('a[href=' + anchor + ']').tab('show');
 });
 
-var timeout = setTimeout("location.reload(true);", 60000);
+var timeout = setTimeout("location.reload(true);", 120000);
 function resetTimeout() {
     clearTimeout(timeout);
-    timeout = setTimeout("location.reload(true);", 60000);
+    timeout = setTimeout("location.reload(true);", 120000);
 }
