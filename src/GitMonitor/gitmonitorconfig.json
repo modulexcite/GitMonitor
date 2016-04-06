@@ -1,6 +1,6 @@
 ﻿{
   "Repositories": {
-    "DefaultPath": "d:\\gitcode",
+    "DefaultPath": "c:\\gitcode",
     "DefaultAge": "-3",
     "libgit2sharp": "https://github.com/libgit2/libgit2sharp/commit/",
     "UserNameExcludeFilter": "xxx"

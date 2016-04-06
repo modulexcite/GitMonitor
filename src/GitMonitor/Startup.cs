@@ -3,7 +3,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace GitMonitor
 {
-    using GitMonitor.Models;
     using GitMonitor.Repositories;
     using Microsoft.AspNet.Builder;
     using Microsoft.AspNet.Hosting;
