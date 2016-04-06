@@ -18,15 +18,15 @@ namespace GitMonitor.Controllers
             this.locallogger = logger;
         }
         
-        public IActionResult Index()
+        public IActionResult Index(int days)
         {
-            var results = this.localRepository.GetAll(false);
+            var results = this.localRepository.GetAll(false, days);
             return this.View(results);
         }
 
-        public IActionResult Advanced()
+        public IActionResult Advanced(int days)
         {
-            var results = this.localRepository.GetAll(true);
+            var results = this.localRepository.GetAll(true, days);
             return this.View(results);
         }
 

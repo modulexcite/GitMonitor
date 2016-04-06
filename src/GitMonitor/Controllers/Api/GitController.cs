@@ -19,16 +19,30 @@ namespace GitMonitor.Controllers
             this.locallogger = logger;
         }
 
-        [Route("{repoName}")]
-        public JsonResult Get(string repoName)
+        public JsonResult Get()
         {
-            var results = this.localRepository.Get(repoName);
+            var results = this.localRepository.GetAll(false, 0);
             return this.Json(results);
         }
 
-        public JsonResult Get()
+        [Route("{days:int}")]
+        public JsonResult Get(int days)
         {
-            var results = this.localRepository.GetAll(false);
+            var results = this.localRepository.Get(string.Empty, days);
+            return this.Json(results);
+        }
+
+        [Route("{repoName}")]
+        public JsonResult Get(string repoName)
+        {
+            var results = this.localRepository.Get(repoName, 0);
+            return this.Json(results);
+        }
+
+        [Route("{repoName}/{days:int}")]
+        public JsonResult Get(string repoName, int days)
+        {
+            var results = this.localRepository.Get(repoName, days);
             return this.Json(results);
         }
     }
