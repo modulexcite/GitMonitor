@@ -13,6 +13,8 @@ namespace GitMonitor.Models
             this.Repositories = new List<GitRepository>();
         }
 
+        public string Name { get; set; }
+
         public List<GitRepository> Repositories { get; set; }
 
         public List<GitCommit> Commits { get; set; }

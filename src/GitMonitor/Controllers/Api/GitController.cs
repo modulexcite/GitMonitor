@@ -28,7 +28,7 @@ namespace GitMonitor.Controllers
 
         public JsonResult Get()
         {
-            var results = this.localRepository.GetAll();
+            var results = this.localRepository.GetAll(false);
             return this.Json(results);
         }
     }

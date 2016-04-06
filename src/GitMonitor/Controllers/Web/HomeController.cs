@@ -20,7 +20,13 @@ namespace GitMonitor.Controllers
         
         public IActionResult Index()
         {
-            var results = this.localRepository.GetAll();
+            var results = this.localRepository.GetAll(false);
+            return this.View(results);
+        }
+
+        public IActionResult Advanced()
+        {
+            var results = this.localRepository.GetAll(true);
             return this.View(results);
         }
 

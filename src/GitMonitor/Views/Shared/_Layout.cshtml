@@ -13,9 +13,11 @@
         <nav class="navbar navbar-default">
             <div class="container-fluid">
                 <div class="navbar-header">
-                    <a class="navbar-brand" asp-controller="App" asp-action="Home"><i class="fa fa-git"></i> Repository Monitor</a>
+                    <a class="navbar-brand" asp-controller="Home" asp-action="Index"><i class="fa fa-git"></i> Repository Monitor</a>
                 </div>
-
+                <ul class="nav navbar-nav">
+                    <li><a asp-controller="Home" asp-action="Advanced">Advanced</a></li>
+                </ul>
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="https://github.com/mikefourie/GitMonitor" target="_blank"><i class="fa fa-github"></i></a></li>
