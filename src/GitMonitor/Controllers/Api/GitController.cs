@@ -28,7 +28,7 @@ namespace GitMonitor.Controllers
         [Route("{days:int}")]
         public JsonResult Get(int days)
         {
-            var results = this.localRepository.Get(string.Empty, days);
+            var results = this.localRepository.GetAll(false, days);
             return this.Json(results);
         }
 
