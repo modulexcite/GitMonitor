@@ -15,6 +15,12 @@ namespace GitMonitor.Models
 
         public string Name { get; set; }
 
+        public string Path { get; set; }
+
+        public bool AllFolders { get; set; }
+
+        public int Days { get; set; }
+
         public List<GitRepository> Repositories { get; set; }
 
         public List<GitCommit> Commits { get; set; }

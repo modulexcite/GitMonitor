@@ -13,5 +13,7 @@ namespace GitMonitor.Repositories
         MonitoredPath GetDefault(MonitoredPathConfig m, int days);
 
         IEnumerable<MonitoredPath> Get(string repoName, int days);
+
+        IEnumerable<MonitoredPath> Get(string repoName, string branchName, int days);
     }
 }

@@ -27,7 +27,6 @@ namespace GitMonitor.Controllers
         
         public IActionResult Index(int days)
         {
-
             var results = this.localRepository.GetDefault(this.localMonitoredPathConfig.Value, days);
             return this.View(results);
         }
@@ -35,8 +34,7 @@ namespace GitMonitor.Controllers
         public IActionResult Fetch(int days)
         {
             this.localRepository.FetchAll();
-            var results = this.localRepository.GetDefault(this.localMonitoredPathConfig.Value, days);
-            return this.View(results);
+            return RedirectToAction("Index");
         }
 
         public IActionResult Error()

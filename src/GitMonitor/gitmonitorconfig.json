@@ -10,18 +10,22 @@
     "MonitoredPaths": [
       {
         "Path": "c:\\gitcode",
-        "Days": "-3",
+        "AllFolders": false,
+        "Days": "-30",
         "Repositories": [
           {
-            "Name": "libgit2sharp",
+            "Name": "VSO-Extension-FolderManagement",
             "CommitUrl": "https://github.com/libgit2/libgit2sharp/commit/",
             "Remote": "origin",
             "Branch": "master",
-            "RepositoryFriendlyName": "ReachClient"
+            "RepositoryFriendlyName": "libgit2sharpFriendly"
           },
           {
             "Name": "ilspy",
-            "RepositoryFriendlyName": "ReachClient"
+            "CommitUrl": "https://github.com/icsharpcode/ILSpy/commit/",
+            "Remote": "origin",
+            "Branch": "master",
+            "RepositoryFriendlyName": "ilspyFriendly"
           }
         ]
       }

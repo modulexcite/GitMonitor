@@ -4,7 +4,7 @@
     ViewData["Title"] = "Home";
 }
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-offset-1 col-md-10">
         <div class="bs-component">
             @if (Model != null)
             {
@@ -34,7 +34,7 @@
                             @foreach (var commit in @Model.Commits)
                             {
                                 <tr>
-                                    <td>@commit.RepositoryFriendlyName</td>
+                                    <td nowrap>@commit.RepositoryFriendlyName</td>
                                     @if (@commit.CommitterWhen.ToString("dd MMM yyy") == DateTime.Now.ToString("dd MMM yyy"))
                                     {
                                         <td nowrap>@commit.CommitterWhen.ToString("HH:mm") </td>

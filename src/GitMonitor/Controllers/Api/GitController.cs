@@ -3,6 +3,8 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using System;
+using GitMonitor.Models;
+using Microsoft.Extensions.OptionsModel;
 
 namespace GitMonitor.Controllers
 {
@@ -15,11 +17,13 @@ namespace GitMonitor.Controllers
     {
         private readonly ILogger<GitController> locallogger;
         private readonly ICommitRepository localRepository;
+        private IOptions<MonitoredPathConfig> localMonitoredPathConfig;
 
-        public GitController(ICommitRepository repository, ILogger<GitController> logger)
+        public GitController(ICommitRepository repository, ILogger<GitController> logger, IOptions<MonitoredPathConfig> monitoredPathConfig)
         {
             this.localRepository = repository;
             this.locallogger = logger;
+            this.localMonitoredPathConfig = monitoredPathConfig;
         }
 
         public JsonResult Get()
@@ -35,7 +39,7 @@ namespace GitMonitor.Controllers
                 days = days * -1;
             }
 
-            var results = this.localRepository.GetDefault(null, days);
+            var results = this.localRepository.GetDefault(this.localMonitoredPathConfig.Value, days);
             return this.Json(results);
         }
 
@@ -50,6 +54,13 @@ namespace GitMonitor.Controllers
         public JsonResult Get(string repoName)
         {
             var results = this.localRepository.Get(repoName, 0);
+            return this.Json(results);
+        }
+
+        [Route("{repoName}/{branchName}")]
+        public JsonResult Get(string repoName, string branchName)
+        {
+            var results = this.localRepository.Get(repoName, branchName, 0);
             return this.Json(results);
         }
 
