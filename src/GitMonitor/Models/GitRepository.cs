@@ -1,6 +1,9 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="GitRepository.cs" company="Mike Fourie">Mike Fourie</copyright>
+// <copyright file="GitRepository.cs" company="FreeToDev">Mike Fourie</copyright>
 // --------------------------------------------------------------------------------------------------------------------
+
+using LibGit2Sharp;
+
 namespace GitMonitor.Models
 {
     public class GitRepository
@@ -10,5 +13,8 @@ namespace GitMonitor.Models
         public string FriendlyName { get; set; }
 
         public int CommitCount { get; set; }
+
+        public Repository Repository { get; set; }
+
     }
 }

@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="GitCommit.cs" company="Mike Fourie">Mike Fourie</copyright>
+// <copyright file="GitCommit.cs" company="FreeToDev">Mike Fourie</copyright>
 // --------------------------------------------------------------------------------------------------------------------
 namespace GitMonitor.Models
 {

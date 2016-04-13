@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ICommitRepository.cs" company="Mike Fourie">Mike Fourie</copyright>
+// <copyright file="ICommitRepository.cs" company="FreeToDev">Mike Fourie</copyright>
 // --------------------------------------------------------------------------------------------------------------------
 namespace GitMonitor.Repositories
 {
@@ -8,8 +8,10 @@ namespace GitMonitor.Repositories
     
     public interface ICommitRepository
     {
-        IEnumerable<MonitoredItem> GetAll(bool includeAdvanced, int days);
+        void FetchAll();
 
-        IEnumerable<MonitoredItem> Get(string repoName, int days);
+        MonitoredPath GetDefault(MonitoredPathConfig m, int days);
+
+        IEnumerable<MonitoredPath> Get(string repoName, int days);
     }
 }

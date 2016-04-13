@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="CommitRepository.cs" company="Mike Fourie">Mike Fourie</copyright>
+// <copyright file="CommitRepository.cs" company="FreeToDev">Mike Fourie</copyright>
 // --------------------------------------------------------------------------------------------------------------------
 namespace GitMonitor.Repositories
 {
@@ -20,24 +20,30 @@ namespace GitMonitor.Repositories
             this.locallogger = logger;
         }
 
-        public IEnumerable<MonitoredItem> GetAll(bool includeAdvanced, int days)
+        public void FetchAll()
+        {
+            DirectoryInfo dir = new DirectoryInfo(Startup.Configuration["Defaults:DefaultPath"]);
+            foreach (var directory in dir.GetDirectories())
+            {
+                using (var repo = new Repository(directory.FullName))
+                {
+                    Remote remote = repo.Network.Remotes["origin"];
+                    repo.Network.Fetch(remote);
+                }
+            }
+        }
+
+        public MonitoredPath GetDefault(MonitoredPathConfig m,int days)
         {
             try
             {
-                List<MonitoredItem> xl = new List<MonitoredItem>();
-                DirectoryInfo di = new DirectoryInfo(Startup.Configuration["Repositories:DefaultPath"]);                
-                xl.Add(this.GetMonitoredItem(di, days, "Default"));
-                if (includeAdvanced)
+                if (days == 0)
                 {
-                    string[] paths = Startup.Configuration["Repositories:AdvancedPaths"].Split(',');
-                    foreach (string s in paths)
-                    {
-                        DirectoryInfo d = new DirectoryInfo(s);
-                        xl.Add(this.GetMonitoredItem(d, days, d.Name));
-                    }
+                    days = Convert.ToInt32(Startup.Configuration["Defaults:DefaultDays"]);
                 }
 
-                return xl;
+                DirectoryInfo di = new DirectoryInfo(Startup.Configuration["Defaults:DefaultPath"]);                
+                return this.GetMonitoredItem(di, days, "Default");
             }
             catch (Exception ex)
             {
@@ -46,15 +52,15 @@ namespace GitMonitor.Repositories
             }
         }
 
-        public IEnumerable<MonitoredItem> Get(string repoName, int days)
+        public IEnumerable<MonitoredPath> Get(string repoName, int days)
         {
             try
             {
-                List<MonitoredItem> xl = new List<MonitoredItem>();
+                List<MonitoredPath> xl = new List<MonitoredPath>();
                 DirectoryInfo dir = new DirectoryInfo(Startup.Configuration["Repositories:DefaultPath"] + @"\" + repoName);
 
                 List<GitCommit> commits = new List<GitCommit>();
-                MonitoredItem mi = new MonitoredItem { Name = dir.Name };
+                MonitoredPath mi = new MonitoredPath { Name = dir.Name };
 
                 GitRepository gitrepo = new GitRepository { Name = dir.Name.Replace(".git", string.Empty) };
 
@@ -66,7 +72,7 @@ namespace GitMonitor.Repositories
                 {
                     if (days == 0)
                     {
-                        days = Convert.ToInt32(Startup.Configuration["Repositories:DefaultAge"]);
+                        days = -1;
                     }
 
                     if (days > 0)
@@ -139,10 +145,10 @@ namespace GitMonitor.Repositories
             }
         }
 
-        private MonitoredItem GetMonitoredItem(DirectoryInfo di, int days, string itemName)
+        private MonitoredPath GetMonitoredItem(DirectoryInfo di, int days, string itemName)
         {
             List<GitCommit> commits = new List<GitCommit>();
-            MonitoredItem mi = new MonitoredItem { Name = itemName };
+            MonitoredPath mi = new MonitoredPath { Name = itemName };
             foreach (var dir in di.GetDirectories())
             {
                 GitRepository gitrepo = new GitRepository { Name = dir.Name.Replace(".git", string.Empty) };
@@ -155,7 +161,7 @@ namespace GitMonitor.Repositories
                 {
                     if (days == 0)
                     {
-                        days = Convert.ToInt32(Startup.Configuration["Repositories:DefaultAge"]);
+                        days = Convert.ToInt32(Startup.Configuration["Repositories:DefaultDays"]);
                     }
 
                     if (days > 0)
@@ -178,7 +184,7 @@ namespace GitMonitor.Repositories
                         }
 
                         string[] nameexclusions =
-                            Startup.Configuration["Repositories:UserNameExcludeFilter"].Split(',');
+                            Startup.Configuration["Defaults:DefaultUserNameExcludeFilter"].Split(',');
                         if (nameexclusions.Any(name => com.Author.Name.Contains(name)))
                         {
                             continue;

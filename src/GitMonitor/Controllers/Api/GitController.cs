@@ -1,6 +1,9 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="GitController.cs" company="Mike Fourie">Copyright Mike Fourie</copyright>
+// <copyright file="GitController.cs" company="FreeToDev">Copyright Mike Fourie</copyright>
 // --------------------------------------------------------------------------------------------------------------------
+
+using System;
+
 namespace GitMonitor.Controllers
 {
     using GitMonitor.Repositories;
@@ -21,14 +24,25 @@ namespace GitMonitor.Controllers
 
         public JsonResult Get()
         {
-            var results = this.localRepository.GetAll(false, 0);
+            int days = Convert.ToInt32(Startup.Configuration["Repositories:DefaultDays"]);
+            if (days == 0)
+            {
+                days = -1;
+            }
+
+            if (days > 0)
+            {
+                days = days * -1;
+            }
+
+            var results = this.localRepository.GetDefault(null, days);
             return this.Json(results);
         }
 
         [Route("{days:int}")]
         public JsonResult Get(int days)
         {
-            var results = this.localRepository.GetAll(false, days);
+            var results = this.localRepository.GetDefault(null, days);
             return this.Json(results);
         }
 

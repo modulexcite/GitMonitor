@@ -1,8 +1,30 @@
 ﻿{
-  "Repositories": {
+  "Defaults": {
     "DefaultPath": "c:\\gitcode",
-    "DefaultAge": "-3",
-    "libgit2sharp": "https://github.com/libgit2/libgit2sharp/commit/",
-    "UserNameExcludeFilter": "xxx"
+    "DefaultDays": "-10",
+    "DefaultRemote": "origin",
+    "DefaultBranch": "master",
+    "DefaultUserNameExcludeFilter": "ServiceUser"
+  },
+  "MonitoredPathConfig": {
+    "MonitoredPaths": [
+      {
+        "Path": "c:\\gitcode",
+        "Days": "-3",
+        "Repositories": [
+          {
+            "Name": "libgit2sharp",
+            "CommitUrl": "https://github.com/libgit2/libgit2sharp/commit/",
+            "Remote": "origin",
+            "Branch": "master",
+            "RepositoryFriendlyName": "ReachClient"
+          },
+          {
+            "Name": "ilspy",
+            "RepositoryFriendlyName": "ReachClient"
+          }
+        ]
+      }
+    ]
   }
 }

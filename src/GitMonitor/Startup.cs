@@ -1,6 +1,9 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Startup.cs" company="Mike Fourie">Mike Fourie</copyright>
+// <copyright file="Startup.cs" company="FreeToDev">Mike Fourie</copyright>
 // --------------------------------------------------------------------------------------------------------------------
+
+using GitMonitor.Models;
+
 namespace GitMonitor
 {
     using GitMonitor.Repositories;
@@ -48,6 +51,8 @@ namespace GitMonitor
 
             // Add application services.
             services.AddScoped<ICommitRepository, CommitRepository>();
+            services.Configure<MonitoredPathConfig>(Configuration.GetSection("MonitoredPathConfig"));
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

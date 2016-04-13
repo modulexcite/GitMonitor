@@ -1,13 +1,13 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="MonitoredItem.cs" company="Mike Fourie">Mike Fourie</copyright>
+// <copyright file="MonitoredItem.cs" company="FreeToDev">Mike Fourie</copyright>
 // --------------------------------------------------------------------------------------------------------------------
 namespace GitMonitor.Models
 {
     using System.Collections.Generic;
 
-    public class MonitoredItem
+    public class MonitoredPath
     {
-        public MonitoredItem()
+        public MonitoredPath()
         {
             this.Commits = new List<GitCommit>();
             this.Repositories = new List<GitRepository>();
