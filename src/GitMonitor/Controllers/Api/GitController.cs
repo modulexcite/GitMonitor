@@ -21,28 +21,48 @@ namespace GitMonitor.Controllers
 
         public JsonResult Get()
         {
-            var results = this.localRepository.GetAll(false, 0);
+            var results = this.localRepository.GetAll(0);
             return this.Json(results);
         }
 
         [Route("{days:int}")]
         public JsonResult Get(int days)
         {
-            var results = this.localRepository.GetAll(false, days);
+            var results = this.localRepository.GetAll(days);
             return this.Json(results);
         }
+
+        //[Route("{repoName}")]
+        //public JsonResult Get(string repoName)
+        //{
+        //    var results = this.localRepository.Get(repoName, "master", 0);
+        //    return this.Json(results);
+        //}
+
+
+        //[Route("{repoName}")]
+        //public JsonResult Get(string repoName, string branchName)
+        //{
+        //    var results = this.localRepository.Get(repoName, branchName, 0);
+        //    return this.Json(results);
+        //}
+
+        //[Route("{repoName}/{days:int}")]
+        //public JsonResult Get(string repoName, int days)
+        //{
+        //    var results = this.localRepository.Get(repoName, "master", days);
+        //    return this.Json(results);
+        //}
 
         [Route("{repoName}")]
-        public JsonResult Get(string repoName)
+        public JsonResult Get(string repoName, string branchName, int days)
         {
-            var results = this.localRepository.Get(repoName, 0);
-            return this.Json(results);
-        }
+            if (branchName == null)
+            {
+                branchName = "master";
+            }
 
-        [Route("{repoName}/{days:int}")]
-        public JsonResult Get(string repoName, int days)
-        {
-            var results = this.localRepository.Get(repoName, days);
+            var results = this.localRepository.Get(repoName, branchName, days);
             return this.Json(results);
         }
     }

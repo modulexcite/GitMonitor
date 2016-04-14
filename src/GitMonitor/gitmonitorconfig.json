@@ -1,8 +1,15 @@
 ﻿{
   "Repositories": {
-    "DefaultPath": "c:\\gitcode",
+    "DefaultPath": "d:\\gitcode",
     "DefaultAge": "-3",
     "libgit2sharp": "https://github.com/libgit2/libgit2sharp/commit/",
-    "UserNameExcludeFilter": "xxx"
+    "Cloud": "http://tfsmr:8080/tfs/IEB/MRGIT/_git/Cloud/commit/",
+    "ReachClient": "http://tfsmr:8080/tfs/IEB/MRGIT/_git/ReachClient/commit/",
+    "DeploymentConfigurationSystem": "http://tfsmr:8080/tfs/IEB/MRGIT/_git/DeploymentConfigurationSystem/commit/",
+    "RCSDev": "http://tfsmr:8080/tfs/IEB/MRGIT/_git/RCSDev/commit/",
+    "RCSProd": "http://tfsmr:8080/tfs/IEB/MRGIT/_git/RCSProd/commit/",
+    "Shells": "http://thor.mr.ericsson.se/mf/Shells/commit/",
+    "DeploymentConfigurationSystemFriendlyName": "DCS",
+    "UserNameExcludeFilter": "Monkey"
   }
 }

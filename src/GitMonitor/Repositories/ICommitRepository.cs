@@ -8,8 +8,8 @@ namespace GitMonitor.Repositories
     
     public interface ICommitRepository
     {
-        IEnumerable<MonitoredItem> GetAll(bool includeAdvanced, int days);
+        IEnumerable<MonitoredItem> GetAll(int days);
 
-        IEnumerable<MonitoredItem> Get(string repoName, int days);
+        IEnumerable<MonitoredItem> Get(string repoName, string branchName, int days);
     }
 }

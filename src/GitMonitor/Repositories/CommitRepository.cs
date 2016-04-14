@@ -20,23 +20,13 @@ namespace GitMonitor.Repositories
             this.locallogger = logger;
         }
 
-        public IEnumerable<MonitoredItem> GetAll(bool includeAdvanced, int days)
+        public IEnumerable<MonitoredItem> GetAll(int days)
         {
             try
             {
                 List<MonitoredItem> xl = new List<MonitoredItem>();
                 DirectoryInfo di = new DirectoryInfo(Startup.Configuration["Repositories:DefaultPath"]);                
-                xl.Add(this.GetMonitoredItem(di, days, "Default"));
-                if (includeAdvanced)
-                {
-                    string[] paths = Startup.Configuration["Repositories:AdvancedPaths"].Split(',');
-                    foreach (string s in paths)
-                    {
-                        DirectoryInfo d = new DirectoryInfo(s);
-                        xl.Add(this.GetMonitoredItem(d, days, d.Name));
-                    }
-                }
-
+                xl.Add(this.GetMonitoredItem(di, "master", days, "Default"));
                 return xl;
             }
             catch (Exception ex)
@@ -46,7 +36,7 @@ namespace GitMonitor.Repositories
             }
         }
 
-        public IEnumerable<MonitoredItem> Get(string repoName, int days)
+        public IEnumerable<MonitoredItem> Get(string repoName, string branchName, int days)
         {
             try
             {
@@ -76,7 +66,8 @@ namespace GitMonitor.Repositories
 
                     DateTime startDate = DateTime.Now.AddDays(days);
                     int commitCount = 0;
-                    string branch = repo.Info.IsBare ? "master" : "origin/master";
+                    string branch = repo.Info.IsBare ? branchName : $"origin/{branchName}";
+                    gitrepo.Branch = branch;
                     foreach (
                         LibGit2Sharp.Commit com in
                             repo.Branches[branch].Commits.Where(s => s.Committer.When >= startDate)
@@ -139,7 +130,7 @@ namespace GitMonitor.Repositories
             }
         }
 
-        private MonitoredItem GetMonitoredItem(DirectoryInfo di, int days, string itemName)
+        private MonitoredItem GetMonitoredItem(DirectoryInfo di, string branchName, int days, string itemName)
         {
             List<GitCommit> commits = new List<GitCommit>();
             MonitoredItem mi = new MonitoredItem { Name = itemName };
@@ -165,7 +156,8 @@ namespace GitMonitor.Repositories
 
                     DateTime startDate = DateTime.Now.AddDays(days);
                     int commitCount = 0;
-                    string branch = repo.Info.IsBare ? "master" : "origin/master";
+                    string branch = repo.Info.IsBare ? branchName : $"origin/{branchName}";
+                    gitrepo.Branch = branch;
                     foreach (
                         LibGit2Sharp.Commit com in
                             repo.Branches[branch].Commits.Where(s => s.Committer.When >= startDate)
